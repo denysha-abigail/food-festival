@@ -25,7 +25,40 @@ module.exports = {
         filename: "[name].bundle.js",
         // output bundle files will be written to the dist folder
         path: __dirname + "/dist",
-      },
+    },
+    // while loaders are configured in the module property of the webpack configuration object, plugins are configured in the plugins array
+    module: {
+        // added an object to the rules array that will identify the type of files to pre-process using the test property to find a regular expression, or regex
+        // we are trying to process any image file with the file extension of .jpg
+        // we could expand this expression to also search for other image file extensions such as .png, .svg, or .gif
+        // recall that regular expressions are a type of code used to search for character patterns in strings, much like how we use the word search in VS Code
+        rules: [
+            {
+                test: /\.jpg$/i,
+                // use is where the actual loader is implemented
+                use: [
+                    {
+                        loader: "file-loader",
+                        // we added an options object below the loader assignment that contains a name function, which returns the name of the file with the file extension
+                        options: {
+                            esModule: false,
+                            name(file) {
+                                return "[path][name].[ext]"
+                            },
+                            // the publicPath property is a function that changes our assignment URL by replacing the ../ from our require() statement with /assets/
+                            publicPath: function (url) {
+                                return url.replace("../", "/assets/")
+                            }
+                        }
+                    },
+                    {
+                        // optimizes the emitted files
+                        loader: 'image-webpack-loader'
+                    }
+                ]
+            }
+        ]
+    },
     // if we want webpack to now use the jQuery package, we need to use a plugin to let webpack know
     // plugins play an important role in directing webpack what to do
     plugins: [

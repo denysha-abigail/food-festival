@@ -1,5 +1,7 @@
 // because Bootstrap doesn't have any special variables that webpack doesn't understand, the only thing we need to do is require the package at the top
 require("bootstrap");
+const img1 = require("../../assets/img/food-table.jpg");
+const img2 = require("../../assets/img/grill.jpg");
 
 $(document).ready(function() {
   if (window.location.href.indexOf("schedule") > -1) {
@@ -174,14 +176,14 @@ $(document).ready(function() {
     {
       title: "We travel all over the US",
       subtitle: "Check out our schedule!",
-      img: "./assets/img/food-table.jpg",
+      img: img1,
       btnText: "View Schedule",
       btnUrl: "schedule.html"
     },
     {
       title: "Our food is seriously the bomb!",
       subtitle: "What are you waiting for?",
-      img: "./assets/img/grill.jpg",
+      img: img2,
       btnText: "Purchase Tickets",
       btnUrl: "tickets.html"
     },
