@@ -168,4 +168,17 @@
       <div class="footer-copyright text-center py-3 text-white">© 2019 Trilogy Education Services, a 2U, Inc. brand. All Rights Reserved.</div>        
     </footer>
 </body>
+<script>
+  // register the service worker
+  // this type of function is a closure in a module design pattern
+  (function() {
+    // initial if conditional in the function checks to see if serviceWorker exists on the global navigator object
+    if("serviceWorker" in navigator) {
+      // it's important that we include the ./ in front of service-worker.js in the preceding code block; if we used an absolute path here, this configuration would break on the deployed application
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => console.log("Service Worker registered successfully."))
+        .catch(error => console.log("Service Worker registration failed:", error));
+    }
+  })();
+  </script>
 </html>
