@@ -3,6 +3,8 @@
 const path = require("path");
 // because the plugin is built into webpack, we need to be sure we're bringing webpack's methods and properties into the config file
 const webpack = require("webpack");
+// plugin that will analyze our bundle sizes to see how much JavaScript is being processed by the browser.
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 
 // create the main configuration object within the file; this is where we will write options within the object that will tell webpack what to do
 // for a basic configuration we need to provide webpack with three properties: entry, output, and mode
@@ -26,6 +28,12 @@ module.exports = {
             $: "jquery",
             jQuery: "jquery"
         }),
+        new BundleAnalyzerPlugin({
+            // the report outputs to an HTML file in the dist folder
+            // this will output an HTML file called report.html that will generate in the dist folder
+            // the new plugin will automatically open a report.html in the browser after the build is completed that will create an interactive tree map in the browser
+            analyzerMode: "static"
+          })
     ],
     mode: 'development'
 };
