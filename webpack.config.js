@@ -13,11 +13,19 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 // webpack will take that entry point, bundle the code, and output it to a folder that we specify; it is common and best practice to put your bundled code into a folder named dist (short for distribution)
 // the final piece of the basic setup will provide the mode in which we want webpack to run; by default, webpack wants to run in production mode (but in this mode webpack will minify our code for us automatically along with some other additions so we want our code to run in development mode instead)
 module.exports = {
-    entry: './assets/js/script.js',
-    output: {
-        path: path.resolve(__dirname, 'dist'),
-        filename: 'main.bundle.js'
+    entry: {
+        app: "./assets/js/script.js",
+        events: "./assets/js/events.js",
+        schedule: "./assets/js/schedule.js",
+        tickets: "./assets/js/tickets.js"
     },
+    output: {
+        // the name of each attribute in the entry object will be used in place of [name] in each bundle.js file that is created
+        // the bundle file for script.js will be app.bundle.js, the bundle file for events.js will be events.bundle.js, and so on, with each using the key name from each key-value pair in the object for [name]
+        filename: "[name].bundle.js",
+        // output bundle files will be written to the dist folder
+        path: __dirname + "/dist",
+      },
     // if we want webpack to now use the jQuery package, we need to use a plugin to let webpack know
     // plugins play an important role in directing webpack what to do
     plugins: [
@@ -33,7 +41,7 @@ module.exports = {
             // this will output an HTML file called report.html that will generate in the dist folder
             // the new plugin will automatically open a report.html in the browser after the build is completed that will create an interactive tree map in the browser
             analyzerMode: "static"
-          })
+        })
     ],
     mode: 'development'
 };
