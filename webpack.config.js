@@ -5,6 +5,7 @@ const path = require("path");
 const webpack = require("webpack");
 // plugin that will analyze our bundle sizes to see how much JavaScript is being processed by the browser.
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const WebpackPwaManifest = require("webpack-pwa-manifest");
 
 // create the main configuration object within the file; this is where we will write options within the object that will tell webpack what to do
 // for a basic configuration we need to provide webpack with three properties: entry, output, and mode
@@ -74,6 +75,32 @@ module.exports = {
             // this will output an HTML file called report.html that will generate in the dist folder
             // the new plugin will automatically open a report.html in the browser after the build is completed that will create an interactive tree map in the browser
             analyzerMode: "static"
+        }),
+        // when we use the new keyword, we are invoking a constructor function
+        // after we instantiate our new WebpackPwaManifest, we provide an object as our only argument
+        new WebpackPwaManifest({
+            name: "Food Event",
+            short_name: "Foodies",
+            description: "An app that allows you to view upcoming food events.",
+            // start_url property specifies the homepage for the PWA relative to the location of the manifest file
+            start_url: "../index.html",
+            background_color: "#01579b",
+            theme_color: "#ffffff",
+            // fingerprints and inject are both specific to the manifest plugin
+            // fingerprints tell webpack whether or not it should generate unique fingerprints so that each time a new manifest is generated, it looks like this: manifest.lhge325d.json
+            // because we do not want this feature, we set fingerprints to be false
+            fingerprints: false,
+            // the inject property determines whether the link to the manifest.json is added to the HTML; because we are not using fingerprints, we can also set inject to be false
+            inject: false,
+            // icons value will be an array of objects
+            // that object contains a src property, which is a path to the icon image we want to use
+            // the next property is sizes; the plugin will take the src image, and create icons with the dimensions of the numbers provided as the value of the sizes property
+            // the destination property designates where the icons will be sent after the creation of the web manifest is completed by the plugin
+            icons: [{
+                src: path.resolve("assets/img/icons/icon-512x512.png"),
+                sizes: [96, 128, 192, 256, 384, 512],
+                destination: path.join("assets", "icons")
+            }]
         })
     ],
     mode: 'development'
